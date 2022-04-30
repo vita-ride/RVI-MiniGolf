@@ -14,6 +14,9 @@ public class Ball : MonoBehaviour
     public float slowTime;
     public float slowTimeLimit;
 
+    public delegate void BallInHoleAction(int hits);
+    public event BallInHoleAction BallInHole;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +70,8 @@ public class Ball : MonoBehaviour
         if(holeTime >= minHoleTime)
         {
             Debug.Log("d bol iz in d hol after " + hits + " hits");
+            // javi igracu da mu je loptica u rupi
+            BallInHole?.Invoke(hits);
             // loptica je u rupi, igrac je zavrsio
             holeTime = 0;
             transform.gameObject.SetActive(false);
@@ -75,7 +80,10 @@ public class Ball : MonoBehaviour
 
     private void CountSlowTime()
     {
-        slowTime += Time.deltaTime;
+        if(slowTime <= slowTimeLimit)
+        {
+            slowTime += Time.deltaTime;
+        }
     }
 
     private void OnTriggerExit(Collider other)
