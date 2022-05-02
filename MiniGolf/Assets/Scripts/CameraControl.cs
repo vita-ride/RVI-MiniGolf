@@ -10,14 +10,14 @@ public class CameraControl : MonoBehaviour
     [SerializeField] private GameObject ball;
     [SerializeField] private GameObject defaultCameraPosition;
     [SerializeField] private GameObject mapView;
-    [SerializeField, Range(10, 100)] private float cameraSpeed;
+    [SerializeField, Range(0.5f, 2)] private float cameraSpeed;
 
     private bool inMapView = false;
 
     private void Awake()
     {
         SetStartingPosition();
-        cameraSpeed = 50;
+        cameraSpeed = 0.7f;
     }
     void Start()
     {
@@ -59,27 +59,25 @@ public class CameraControl : MonoBehaviour
         //Mouse left
         if (Input.GetAxis("Mouse X") < 0)
         {
-            //transform.RotateAround(ball.transform.position, Vector3.up, 30 * Time.deltaTime);
-            ball.transform.Rotate(new Vector3(0, -cameraSpeed * Time.deltaTime, 0));
+            ball.transform.Rotate(new Vector3(0, -cameraSpeed, 0));
         }
 
         //Mouse right
         if (Input.GetAxis("Mouse X") > 0)
         {
-            //transform.RotateAround(ball.transform.position, -Vector3.up, 30 * Time.deltaTime);
-            ball.transform.Rotate(new Vector3(0, cameraSpeed * Time.deltaTime, 0));
+            ball.transform.Rotate(new Vector3(0, cameraSpeed, 0));
         }
 
         //Mouse up
         if (Input.GetAxis("Mouse Y") > 0)
         {
-            transform.RotateAround(ball.transform.position, ball.transform.right, cameraSpeed * Time.deltaTime);
+            transform.RotateAround(ball.transform.position, ball.transform.right, cameraSpeed);
         }
 
         //Mouse down
         if (Input.GetAxis("Mouse Y") < 0)
         {
-            transform.RotateAround(ball.transform.position, -ball.transform.right, cameraSpeed * Time.deltaTime);
+            transform.RotateAround(ball.transform.position, -ball.transform.right, cameraSpeed);
         }
     }
 
