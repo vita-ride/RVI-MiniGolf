@@ -30,17 +30,24 @@ public class TestFizika : MonoBehaviour
         {
             if (Input.GetKeyUp(KeyCode.Space))
             {
-                float angle = aim.gameObject.transform.localRotation.eulerAngles.y;
+                if (!aim.isCharging())
+                {
+                    aim.charge();
+                }
+                else
+                {
+                    float angle = aim.gameObject.transform.localRotation.eulerAngles.y;
 
-                double angleInRadians = Math.PI * angle / 180.0;
+                    double angleInRadians = Math.PI * angle / 180.0;
 
-                x = Math.Sin(angleInRadians);
-                z = Math.Cos(angleInRadians);
+                    x = Math.Sin(angleInRadians);
+                    z = Math.Cos(angleInRadians);
 
-                direction.x = (float)x;
-                direction.z = (float)z;
-
-                rigidBody.AddForce(direction.normalized * force, ForceMode.Impulse);
+                    direction.x = (float)x;
+                    direction.z = (float)z;
+                    rigidBody.AddForce(direction.normalized * force * aim.getForce(), ForceMode.Impulse);
+                    aim.gameObject.SetActive(false); //additionally making sure the bar doesn't show after hitting
+                }
             }
         }
 
