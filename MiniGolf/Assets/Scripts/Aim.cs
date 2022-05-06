@@ -10,7 +10,7 @@ public class Aim : MonoBehaviour
     private float force;
     private float increment;
     private bool reset;
-    private const float ratio = -0.5f;
+    private const float ratio = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,7 @@ public class Aim : MonoBehaviour
                 Vector3 newScale = barTransform.localScale;
                 Vector3 newPosition = barTransform.localPosition;
                 newScale.z = 1;
-                newPosition.x = ratio;
+                newPosition.z = ratio;
                 barTransform.localScale = newScale;
                 barTransform.localPosition = newPosition;
                 reset = false;
@@ -44,7 +44,7 @@ public class Aim : MonoBehaviour
             Vector3 newScale = barTransform.localScale;
             Vector3 newPosition = barTransform.localPosition;
             newScale.z = force;
-            newPosition.x = force*ratio;
+            newPosition.z = force*ratio;
             barTransform.localScale = newScale;
             barTransform.localPosition = newPosition;
 
