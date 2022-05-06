@@ -9,8 +9,9 @@ public class TestFizika : MonoBehaviour
     [SerializeField] private Rigidbody rigidBody;
     private double x;
     private double z;
-    private Vector3 direction = new Vector3(0,0.01f,0);
+    private Vector3 direction = new Vector3(0,0,0);
     [SerializeField] private float force;
+    public Ball ball;
     private bool isMoving;
 
     void Update()
