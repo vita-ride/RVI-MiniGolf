@@ -13,9 +13,11 @@ public class CameraControl : MonoBehaviour
     [SerializeField, Range(0.5f, 2)] private float cameraSpeed;
 
     private bool inMapView = false;
+    private bool locked;
 
     private void Awake()
     {
+        locked = false;
         SetStartingPosition();
         cameraSpeed = 0.7f;
     }
@@ -56,29 +58,32 @@ public class CameraControl : MonoBehaviour
     }
     private void RotateCamera()
     {
-        //Mouse left
-        if (Input.GetAxis("Mouse X") < 0)
-        {
-            ball.transform.Rotate(new Vector3(0, -cameraSpeed, 0));
+        if (!locked) {
+            //Mouse left
+            if (Input.GetAxis("Mouse X") < 0)
+            {
+                ball.transform.Rotate(new Vector3(0, -cameraSpeed, 0));
+            }
+
+            //Mouse right
+            if (Input.GetAxis("Mouse X") > 0)
+            {
+                ball.transform.Rotate(new Vector3(0, cameraSpeed, 0));
+            }
+
+            //Mouse up
+            if (Input.GetAxis("Mouse Y") > 0)
+            {
+                transform.RotateAround(ball.transform.position, ball.transform.right, cameraSpeed);
+            }
+
+            //Mouse down
+            if (Input.GetAxis("Mouse Y") < 0)
+            {
+                transform.RotateAround(ball.transform.position, -ball.transform.right, cameraSpeed);
+            }
         }
 
-        //Mouse right
-        if (Input.GetAxis("Mouse X") > 0)
-        {
-            ball.transform.Rotate(new Vector3(0, cameraSpeed, 0));
-        }
-
-        //Mouse up
-        if (Input.GetAxis("Mouse Y") > 0)
-        {
-            transform.RotateAround(ball.transform.position, ball.transform.right, cameraSpeed);
-        }
-
-        //Mouse down
-        if (Input.GetAxis("Mouse Y") < 0)
-        {
-            transform.RotateAround(ball.transform.position, -ball.transform.right, cameraSpeed);
-        }
     }
 
     private void ToggleMapView()
@@ -99,5 +104,13 @@ public class CameraControl : MonoBehaviour
             transform.parent = ball.transform;
             SetStartingPosition();
         }
+    }
+
+    public void lockCamera(){
+        locked = true;
+    }
+
+    public void unlockCamera(){
+        locked = false;
     }
 }

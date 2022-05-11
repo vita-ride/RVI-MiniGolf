@@ -7,6 +7,7 @@ public class TestFizika : MonoBehaviour
 {
     [SerializeField] private Aim aim;
     [SerializeField] private Rigidbody rigidBody;
+    [SerializeField] private CameraControl camera;
     private double x;
     private double z;
     private Vector3 direction = new Vector3(0,0,0);
@@ -20,6 +21,7 @@ public class TestFizika : MonoBehaviour
         {
             aim.gameObject.SetActive(false);
             isMoving = true;
+            
         }
         else
         {
@@ -34,10 +36,12 @@ public class TestFizika : MonoBehaviour
                 if (!aim.isCharging())
                 {
                     aim.charge();
+                    camera.lockCamera();
                 }
                 else
                 {
-                    float angle = aim.gameObject.transform.localRotation.eulerAngles.y;
+                    camera.unlockCamera();
+                    float angle = aim.gameObject.transform.eulerAngles.y;
 
                     double angleInRadians = Math.PI * angle / 180.0;
 

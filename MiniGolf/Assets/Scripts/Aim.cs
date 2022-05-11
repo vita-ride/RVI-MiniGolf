@@ -19,6 +19,7 @@ public class Aim : MonoBehaviour
         barTransform = myTransform.GetChild(0);
         charging = false;
         reset = true;
+        //FIXME: Doesn't work this way for varying fps
         increment = -0.01f;
     }
 
@@ -56,18 +57,18 @@ public class Aim : MonoBehaviour
             force += increment;
         }
 
-        if (!charging)
-        {
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                myTransform.Rotate(0, -0.6f, 0);
-            }
+        // if (!charging)
+        // {
+        //     if (Input.GetKey(KeyCode.LeftArrow))
+        //     {
+        //         myTransform.Rotate(0, -0.6f, 0);
+        //     }
 
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                myTransform.Rotate(0, 0.6f, 0);
-            }
-        }
+        //     if (Input.GetKey(KeyCode.RightArrow))
+        //     {
+        //         myTransform.Rotate(0, 0.6f, 0);
+        //     }
+        // }
     }
 
     public bool isCharging()
