@@ -880,7 +880,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aim: {fileID: 1105371206}
   rigidBody: {fileID: 1426310217}
-  cameraFocus: {fileID: 1202723875}
+  camera: {fileID: 832833900}
   force: 2.5
   ball: {fileID: 919132148299921687}
 --- !u!64 &1610888144
