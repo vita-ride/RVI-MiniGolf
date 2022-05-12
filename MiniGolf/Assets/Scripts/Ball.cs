@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Ball : MonoBehaviour
 {
@@ -14,6 +15,14 @@ public class Ball : MonoBehaviour
     public float slowTime;
     public float slowTimeLimit;
 
+    [SerializeField] private Aim aim;
+    // [SerializeField] private Rigidbody rigidBody;
+    [SerializeField] private CameraControl cameraControl;
+    private double x;
+    private double z;
+    private Vector3 direction = new Vector3(0,0,0);
+    [SerializeField] private float force;
+
     public delegate void BallInHoleAction(int hits);
     public event BallInHoleAction BallInHole;
 
@@ -23,6 +32,7 @@ public class Ball : MonoBehaviour
         lastPosition = transform.position;
         rbody = GetComponent<Rigidbody>();
         moving = true;
+        hits = 0;
     }
 
     // Update is called once per frame
@@ -44,6 +54,8 @@ public class Ball : MonoBehaviour
             moving = true;
             slowTime = 0;
         }
+
+        onFrame();
         
     }
     private void OnCollisionEnter(Collision collision)
@@ -91,6 +103,42 @@ public class Ball : MonoBehaviour
         if(other.tag == "Hole")
         {
             holeTime = 0;
+        }
+    }
+
+    private void onFrame() {
+        if (moving)
+        {
+            aim.gameObject.SetActive(false);
+        }
+        else
+        {
+            aim.gameObject.SetActive(true);
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                if (!aim.isCharging())
+                {
+                    aim.charge();
+                    cameraControl.lockCamera();
+                }
+                else
+                {
+                    cameraControl.unlockCamera();
+                    float angle = aim.gameObject.transform.eulerAngles.y;
+
+                    double angleInRadians = Math.PI * angle / 180.0;
+
+                    x = Math.Sin(angleInRadians);
+                    z = Math.Cos(angleInRadians);
+
+                    direction.x = (float)x;
+                    direction.z = (float)z;
+                    rbody.AddForce(direction.normalized * force * aim.getForce(), ForceMode.Impulse);
+                    hits++;
+                    aim.gameObject.SetActive(false); //additionally making sure the bar doesn't show after hitting
+                }
+            }
         }
     }
 }
