@@ -33,6 +33,7 @@ public class Ball : MonoBehaviour
         rbody = GetComponent<Rigidbody>();
         moving = true;
         hits = 0;
+        cameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControl>();
     }
 
     // Update is called once per frame

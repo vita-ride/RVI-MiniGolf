@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Ball ball;
+    public string playerName;
 
     // Start is called before the first frame update
     void Start()

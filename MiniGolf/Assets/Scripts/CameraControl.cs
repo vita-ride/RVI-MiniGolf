@@ -18,12 +18,14 @@ public class CameraControl : MonoBehaviour
     private void Awake()
     {
         locked = false;
-        SetStartingPosition();
         cameraSpeed = 0.7f;
     }
     void Start()
     {
-        
+        ball = GameObject.Find(MultiGameManager.GetInstance().players[1].name).transform.Find("Ball").gameObject;
+        defaultCameraPosition = ball.transform.GetChild(0).Find("DefaultCameraPosition").gameObject;
+
+        SetStartingPosition();
     }
 
     void Update()
