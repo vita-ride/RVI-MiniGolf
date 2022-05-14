@@ -5,10 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class MultiGameManager : MonoBehaviour
 {
-    public Dictionary<int, PlayerInfo> players;
+    public PlayerInfo[] players;
     static MultiGameManager instance;
+    //moze da bude matrica ako je fixed broj levela, moze i da se doda u playerInfo struct
     public List<int>[] score;
     public int curLevel;
+    private int levelCount;
 
     public static MultiGameManager GetInstance()
     {
@@ -25,8 +27,9 @@ public class MultiGameManager : MonoBehaviour
         }
         instance = this;
 
-        score = new List<int>[players.Count];
+        score = new List<int>[players.Length];
         curLevel = 0;
+        levelCount = 1;
 
         GameObject.DontDestroyOnLoad(this.gameObject);
         initNextLevel();
@@ -40,8 +43,15 @@ public class MultiGameManager : MonoBehaviour
 
     public void initNextLevel()
     {
+        if(curLevel == levelCount)
+        {
+            //endGame();
+        }
+        else
+        {
         ++curLevel;
         SceneManager.LoadScene($"Scenes/Level_{curLevel}");
+        }
 
     }
 }

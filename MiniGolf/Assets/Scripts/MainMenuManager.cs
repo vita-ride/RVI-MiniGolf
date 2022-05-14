@@ -19,20 +19,24 @@ public class MainMenuManager : MonoBehaviour
 {
 
     private GameMode mode;
-    public Dictionary<int, PlayerInfo> players;
+    //public Dictionary<int, PlayerInfo> players;
+    public PlayerInfo[] players;
     private int level;
     public GameObject practiceGameManager;
     public GameObject multiGameManager;
     private MultiGameManager gameManager;
+    private int playerCount;
 
     // Start is called before the first frame update
     void Start()
     {
         level = 0;
         mode = GameMode.Multi;
-        players = new Dictionary<int, PlayerInfo>();
-        players.Add(1, new PlayerInfo("Pera", Color.blue));
-        players.Add(2, new PlayerInfo("Mika", Color.red));
+        playerCount = 3;
+        players = new PlayerInfo[playerCount];
+        players[0] = new PlayerInfo("Pera", Color.blue);
+        players[1] = new PlayerInfo("Mika", Color.red);
+        players[2] = new PlayerInfo("Zika", Color.cyan);
     }
 
     // Update is called once per frame
@@ -44,12 +48,16 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    private void InitGame(GameMode mode, int level, Dictionary<int, PlayerInfo> players)
+    private void InitGame(GameMode mode, int level, PlayerInfo[] players)
     {
         if(mode == GameMode.Multi) {
             gameManager = Instantiate(multiGameManager).GetComponent<MultiGameManager>();
             gameManager.name = "multiGameManager";
             gameManager.players = players;
+        }
+        if(mode == GameMode.Practice)
+        {
+            //todo
         }
     }
 

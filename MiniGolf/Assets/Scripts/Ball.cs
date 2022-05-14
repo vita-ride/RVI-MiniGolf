@@ -14,6 +14,8 @@ public class Ball : MonoBehaviour
     public int hits;
     public float slowTime;
     public float slowTimeLimit;
+    public bool myTurn;
+    public bool wasHitThisTurn;
 
     [SerializeField] private Aim aim;
     // [SerializeField] private Rigidbody rigidBody;
@@ -26,12 +28,16 @@ public class Ball : MonoBehaviour
     public delegate void BallInHoleAction(int hits);
     public event BallInHoleAction BallInHole;
 
+    public delegate void BallStoppedAction();
+    public event BallStoppedAction BallStopped;
     // Start is called before the first frame update
     void Start()
     {
         lastPosition = transform.position;
         rbody = GetComponent<Rigidbody>();
         moving = true;
+        slowTimeLimit = 1.5f;
+        minHoleTime = 1f;
         hits = 0;
         cameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControl>();
     }
@@ -48,6 +54,13 @@ public class Ball : MonoBehaviour
             {
                 moving = false;
                 lastPosition = rbody.position;
+                if (wasHitThisTurn)
+                {
+                    myTurn = false;
+                    Debug.Log("wasHitThisTurn");
+                    BallStopped?.Invoke();
+                    wasHitThisTurn = false;
+                }
             }
         }
         else
@@ -87,7 +100,7 @@ public class Ball : MonoBehaviour
             BallInHole?.Invoke(hits);
             // loptica je u rupi, igrac je zavrsio
             holeTime = 0;
-            transform.gameObject.SetActive(false);
+            
         }
     }
 
@@ -108,7 +121,7 @@ public class Ball : MonoBehaviour
     }
 
     private void onFrame() {
-        if (moving)
+        if (moving || !myTurn)
         {
             aim.gameObject.SetActive(false);
         }
@@ -135,8 +148,10 @@ public class Ball : MonoBehaviour
 
                     direction.x = (float)x;
                     direction.z = (float)z;
+                    slowTime = 0;
                     rbody.AddForce(direction.normalized * force * aim.getForce(), ForceMode.Impulse);
                     hits++;
+                    wasHitThisTurn = true;
                     aim.gameObject.SetActive(false); //additionally making sure the bar doesn't show after hitting
                 }
             }
