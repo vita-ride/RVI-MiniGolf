@@ -32,11 +32,11 @@ public class MainMenuManager : MonoBehaviour
     {
         level = 0;
         mode = GameMode.Multi;
-        playerCount = 3;
+        playerCount = 2;
         players = new PlayerInfo[playerCount];
         players[0] = new PlayerInfo("Pera", Color.blue);
         players[1] = new PlayerInfo("Mika", Color.red);
-        players[2] = new PlayerInfo("Zika", Color.cyan);
+        //players[2] = new PlayerInfo("Zika", Color.cyan);
     }
 
     // Update is called once per frame

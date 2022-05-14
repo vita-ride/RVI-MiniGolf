@@ -29,7 +29,7 @@ public class MultiGameManager : MonoBehaviour
 
         score = new List<int>[players.Length];
         curLevel = 0;
-        levelCount = 1;
+        levelCount = 2;
 
         GameObject.DontDestroyOnLoad(this.gameObject);
         initNextLevel();
