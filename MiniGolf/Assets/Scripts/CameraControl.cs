@@ -18,12 +18,11 @@ public class CameraControl : MonoBehaviour
     private void Awake()
     {
         locked = false;
-        SetStartingPosition();
         cameraSpeed = 0.7f;
     }
     void Start()
     {
-        
+        SetCameraAtPlayer(0);
     }
 
     void Update()
@@ -50,7 +49,17 @@ public class CameraControl : MonoBehaviour
         }
     }
 
-    private void SetStartingPosition()
+    public void SetCameraAtPlayer(int id)
+    {
+        ball = GameObject.Find(MultiGameManager.GetInstance().players[id].name).transform.Find("Ball").Find("CameraFocus").gameObject;
+        defaultCameraPosition = ball.transform.Find("DefaultCameraPosition").gameObject;
+
+        transform.position = defaultCameraPosition.transform.position;
+        transform.LookAt(ball.transform);
+        transform.parent = ball.transform;
+    }
+
+    private void FocusOnBall()
     {
         transform.position = defaultCameraPosition.transform.position;
         transform.LookAt(ball.transform);
@@ -102,7 +111,7 @@ public class CameraControl : MonoBehaviour
             inMapView = false;
             Camera.main.orthographic = false;
             transform.parent = ball.transform;
-            SetStartingPosition();
+            FocusOnBall();
         }
     }
 
