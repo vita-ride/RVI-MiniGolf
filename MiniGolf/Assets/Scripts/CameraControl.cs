@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(GameObject))]
-[RequireComponent(typeof(GameObject))]
-[RequireComponent(typeof(GameObject))]
 public class CameraControl : MonoBehaviour
 {
-    [SerializeField] private GameObject ball;
-    [SerializeField] private GameObject defaultCameraPosition;
+    private GameObject ball;
+    private GameObject defaultCameraPosition;
     [SerializeField] private GameObject mapView;
     [SerializeField, Range(0.5f, 2)] private float cameraSpeed;
 
