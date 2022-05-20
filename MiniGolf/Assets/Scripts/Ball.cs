@@ -17,6 +17,7 @@ public class Ball : MonoBehaviour
     public bool myTurn;
     public bool wasHitThisTurn;
 
+    [SerializeField] private SoundManager sounds;
     [SerializeField] private Aim aim;
     // [SerializeField] private Rigidbody rigidBody;
     [SerializeField] private CameraControl cameraControl;
@@ -40,6 +41,7 @@ public class Ball : MonoBehaviour
         minHoleTime = 1f;
         hits = 0;
         cameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControl>();
+        sounds = SoundManager.GetInstance();
     }
 
     // Update is called once per frame
@@ -80,6 +82,8 @@ public class Ball : MonoBehaviour
             transform.position = lastPosition;
             moving = false;
         }
+
+        sounds.PlayBallCollisionSound();
     }
 
     private void OnTriggerStay(Collider other)
@@ -90,11 +94,19 @@ public class Ball : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Hole")
+        {
+            sounds.PlayBallInHoleSound();
+        }
+    }
     private void CountHoleTime()
     {
         holeTime += Time.deltaTime;
         if(holeTime >= minHoleTime)
         {
+            sounds.PlayCrowdSound();
             Debug.Log("d bol iz in d hol after " + hits + " hits");
             // javi igracu da mu je loptica u rupi
             BallInHole?.Invoke(hits);
