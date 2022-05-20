@@ -11,8 +11,10 @@ public class LevelManager : MonoBehaviour
     private int currPlayerID;
     public GameObject playerPrefab;
     [SerializeField] private CameraControl cameraControl;
+    private CPC_CameraPath cameraPath;
     [SerializeField] private Scoreboard scoreboard;
     private int playerCount;
+    private bool lvlStarted;
 
     // Start is called before the first frame update
     void Start()
@@ -24,17 +26,26 @@ public class LevelManager : MonoBehaviour
         activePlayers = playerCount;
         currPlayerID = 0;
         cameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControl>();
+        cameraPath = GameObject.Find("CameraPath").GetComponent<CPC_CameraPath>();
         scoreboard = GameObject.Find("Scoreboard").GetComponent<Scoreboard>();
+        lvlStarted = false;
 
-        InstantiatePlayers();
-        scoreboard.FillPlayerData(players);
-        scoreboard.Refresh(playerHits);
+        cameraPath.PlayPath(10);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(!lvlStarted && !cameraPath.IsPlaying())
+        {
+            InstantiatePlayers();
+            scoreboard.FillPlayerData(players);
+            scoreboard.Refresh(playerHits);
+
+            cameraControl.SetCameraAtPlayer(0);
+
+            lvlStarted = true;
+        }
     }
 
     private void ProcessEndOfTurn(int id)

@@ -9,6 +9,7 @@ public class CameraControl : MonoBehaviour
     private GameObject defaultCameraPosition;
     [SerializeField] private GameObject mapView;
     [SerializeField, Range(0.5f, 2)] private float cameraSpeed;
+    private CPC_CameraPath cameraPath;
 
     private bool inMapView = false;
     private bool locked;
@@ -20,29 +21,32 @@ public class CameraControl : MonoBehaviour
     }
     void Start()
     {
-        SetCameraAtPlayer(0);
+        cameraPath = GameObject.Find("CameraPath").GetComponent<CPC_CameraPath>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (!cameraPath.IsPlaying() && ball != null)
         {
-            ToggleMapView();
-        }
-
-        if (!inMapView)
-        {
-            Vector3 oldPos = transform.localPosition;
-
-            transform.LookAt(ball.transform);
-
-            if (transform.localPosition.y < 0)
+            if (Input.GetKeyDown(KeyCode.C))
             {
-                transform.localPosition = Vector3.Scale(oldPos, new Vector3(1, 0, 1));
+                ToggleMapView();
             }
-            else
+
+            if (!inMapView)
             {
-                RotateCamera();
+                Vector3 oldPos = transform.localPosition;
+
+                transform.LookAt(ball.transform);
+
+                if (transform.localPosition.y < 0)
+                {
+                    transform.localPosition = Vector3.Scale(oldPos, new Vector3(1, 0, 1));
+                }
+                else
+                {
+                    RotateCamera();
+                }
             }
         }
     }
