@@ -7,9 +7,11 @@ public class LevelManager : MonoBehaviour
     public PlayerInfo[] players;
     public GameObject[] playerObjs;
     private int activePlayers;
+    private int[] playerHits;
     private int currPlayerID;
     public GameObject playerPrefab;
     [SerializeField] private CameraControl cameraControl;
+    [SerializeField] private Scoreboard scoreboard;
     private int playerCount;
 
     // Start is called before the first frame update
@@ -17,13 +19,16 @@ public class LevelManager : MonoBehaviour
     {
         players = MultiGameManager.GetInstance().players;
         playerCount = players.Length;
+        playerHits = new int[playerCount];
         playerObjs = new GameObject[playerCount];
         activePlayers = playerCount;
         currPlayerID = 0;
         cameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControl>();
+        scoreboard = GameObject.Find("Scoreboard").GetComponent<Scoreboard>();
 
         InstantiatePlayers();
-
+        scoreboard.FillPlayerData(players);
+        scoreboard.Refresh(playerHits);
     }
 
     // Update is called once per frame
@@ -34,7 +39,10 @@ public class LevelManager : MonoBehaviour
 
     private void ProcessEndOfTurn(int id)
     {
-        if(activePlayers != 0)
+        playerHits[id]++;
+        scoreboard.Refresh(playerHits);
+
+        if (activePlayers != 0)
         {
             int nextPlayerID = (id + 1) % playerCount;
             while (true)
@@ -75,6 +83,12 @@ public class LevelManager : MonoBehaviour
         // vidi da li su svi zavrsili
         if(activePlayers == 0)
         {
+            for(int i=0; i<playerCount; i++)
+            {
+                MultiGameManager.GetInstance().score[i].Add(playerHits[i]);
+            }
+            playerHits = new int[playerCount];
+
             MultiGameManager.GetInstance().initNextLevel();
         }
     }
