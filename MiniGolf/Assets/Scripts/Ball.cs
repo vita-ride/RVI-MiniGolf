@@ -6,6 +6,7 @@ using System;
 public class Ball : MonoBehaviour
 {
     public Vector3 lastPosition;
+    public Vector3 firstPosition;
     public bool moving;
     public float holeTime;
     public float minHoleTime;
@@ -33,6 +34,7 @@ public class Ball : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        firstPosition = transform.position;
         lastPosition = transform.position;
         rbody = GetComponent<Rigidbody>();
         moving = true;
@@ -76,6 +78,11 @@ public class Ball : MonoBehaviour
     {
         if(collision.gameObject.name == "Plane")
         {
+            if (lastPosition.x == firstPosition.x && lastPosition.z == firstPosition.z)
+            {
+                GetComponent<SphereCollider>().enabled = false;
+                GetComponent<Rigidbody>().constraints |= RigidbodyConstraints.FreezePositionY;
+            }
             rbody.velocity = Vector3.zero;
             transform.position = lastPosition;
             // temp fix for multiplayer
@@ -150,9 +157,9 @@ public class Ball : MonoBehaviour
                     direction.x = (float)x;
                     direction.z = (float)z;
                     slowTime = 0;
-
                     aim.gameObject.SetActive(false); //additionally making sure the bar doesn't show after hitting
-
+                    GetComponent<SphereCollider>().enabled = true;
+                    GetComponent<Rigidbody>().constraints &= ~RigidbodyConstraints.FreezePositionY;
                     rbody.AddForce(direction.normalized * force * aim.getForce(), ForceMode.Impulse);
                     hits++;
                     wasHitThisTurn = true;
