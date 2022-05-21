@@ -38,6 +38,8 @@ public class LevelManager : MonoBehaviour
     {
         if(!lvlStarted && !cameraPath.IsPlaying())
         {
+            GameObject.Find("SkipIntro").gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
             InstantiatePlayers();
             scoreboard.FillPlayerData(players);
             scoreboard.Refresh(playerHits);
