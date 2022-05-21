@@ -12,6 +12,8 @@ public class Aim : MonoBehaviour
     private bool reset;
     private const float ratio = 0.5f;
 
+    private float time;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,55 +22,48 @@ public class Aim : MonoBehaviour
         charging = false;
         reset = true;
         //FIXME: Doesn't work this way for varying fps
-        increment = -0.01f;
+        increment = -0.05f;
+        time = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!charging)
-        {
-            //draw full bar
-            if (reset) // this doesn't need to happen every frame
+        time += Time.deltaTime;
+
+        if(time > 1f/60f) {
+            time = 0;
+            if (!charging)
+            {
+                //draw full bar
+                if (reset) // this doesn't need to happen every frame
+                {
+                    Vector3 newScale = barTransform.localScale;
+                    Vector3 newPosition = barTransform.localPosition;
+                    newScale.z = 1;
+                    newPosition.z = ratio;
+                    barTransform.localScale = newScale;
+                    barTransform.localPosition = newPosition;
+                    reset = false;
+                }
+            } 
+            else 
             {
                 Vector3 newScale = barTransform.localScale;
                 Vector3 newPosition = barTransform.localPosition;
-                newScale.z = 1;
-                newPosition.z = ratio;
+                newScale.z = force;
+                newPosition.z = force*ratio;
                 barTransform.localScale = newScale;
                 barTransform.localPosition = newPosition;
-                reset = false;
-            }
-        } 
-        else 
-        {
-            Vector3 newScale = barTransform.localScale;
-            Vector3 newPosition = barTransform.localPosition;
-            newScale.z = force;
-            newPosition.z = force*ratio;
-            barTransform.localScale = newScale;
-            barTransform.localPosition = newPosition;
 
-            if (force <= 0.05f || force > 1f)
-            {
-                increment *= -1;
+                if (force <= 0.05f || force > 1f)
+                {
+                    increment *= -1;
+                }
+                //TODO: maybe have a varying increment
+                force += increment;
             }
-            //TODO: maybe have a varying increment
-            force += increment;
         }
-
-        // if (!charging)
-        // {
-        //     if (Input.GetKey(KeyCode.LeftArrow))
-        //     {
-        //         myTransform.Rotate(0, -0.6f, 0);
-        //     }
-
-        //     if (Input.GetKey(KeyCode.RightArrow))
-        //     {
-        //         myTransform.Rotate(0, 0.6f, 0);
-        //     }
-        // }
     }
 
     public bool isCharging()

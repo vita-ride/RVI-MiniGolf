@@ -149,10 +149,13 @@ public class Ball : MonoBehaviour
                     direction.x = (float)x;
                     direction.z = (float)z;
                     slowTime = 0;
+                    
+                    aim.gameObject.SetActive(false); //additionally making sure the bar doesn't show after hitting
+
                     rbody.AddForce(direction.normalized * force * aim.getForce(), ForceMode.Impulse);
                     hits++;
                     wasHitThisTurn = true;
-                    aim.gameObject.SetActive(false); //additionally making sure the bar doesn't show after hitting
+                    
                 }
             }
         }

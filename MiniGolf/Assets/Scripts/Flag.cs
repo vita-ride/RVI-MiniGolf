@@ -9,6 +9,8 @@ public class Flag : MonoBehaviour
     private Transform myTransform;
     private float startingY;
     private float maxY;
+
+    private float time;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,20 +18,27 @@ public class Flag : MonoBehaviour
         speed = 0;
         myTransform = this.gameObject.transform;
         startingY = myTransform.localPosition.y;
-        maxY = startingY + 1f;
+        maxY = startingY + 0.5f;
+        time = 0;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 newPosition = myTransform.localPosition;
-        newPosition.y = newPosition.y + speed;
-        myTransform.localPosition = newPosition;
+        time += Time.deltaTime;
+        if (time > 1f/60f) {
+            time = 0;
 
-        if (myTransform.localPosition.y <= startingY || myTransform.localPosition.y >= maxY){
-            speed = 0;
+            Vector3 newPosition = myTransform.localPosition;
+            newPosition.y = newPosition.y + speed;
+            myTransform.localPosition = newPosition;
+
+            if (myTransform.localPosition.y <= startingY || myTransform.localPosition.y >= maxY){
+                speed = 0;
+            }   
         }
+        
     }
 
     private void OnTriggerEnter(Collider other)
