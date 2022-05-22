@@ -174,6 +174,7 @@ public class Ball : MonoBehaviour
                     direction.z = (float)z;
                     slowTime = 0;
                     aim.gameObject.SetActive(false); //additionally making sure the bar doesn't show after hitting
+                    sounds.PlayPuttSound(aim.getForce());
                     GetComponent<SphereCollider>().enabled = true;
                     GetComponent<Rigidbody>().constraints &= ~RigidbodyConstraints.FreezePositionY;
                     rbody.AddForce(direction.normalized * force * aim.getForce(), ForceMode.Impulse);

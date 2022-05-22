@@ -38,10 +38,10 @@ public class SoundManager : MonoBehaviour
         AudioSource.PlayOneShot(clip);
     }
 
-    public void PlayPuttSound()
+    public void PlayPuttSound(float volume)
     {
         AudioClip clip = PuttClips[UnityEngine.Random.Range(0, PuttClips.Length)];
-        AudioSource.PlayOneShot(clip);
+        AudioSource.PlayOneShot(clip, volume);
     }
 
     public void PlayBallCollisionSound()
