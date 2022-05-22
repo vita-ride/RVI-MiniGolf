@@ -17,6 +17,7 @@ public class Ball : MonoBehaviour
     public float slowTimeLimit;
     public bool myTurn;
     public bool wasHitThisTurn;
+    public ParticleSystem sparkSystem;
 
     [SerializeField] private Aim aim;
     // [SerializeField] private Rigidbody rigidBody;
@@ -88,6 +89,12 @@ public class Ball : MonoBehaviour
             // temp fix for multiplayer
             // moving = false;
         }
+        
+        if (collision.gameObject.name == "Ball")
+        {
+            sparkSystem.Play();
+        }
+
     }
 
     private void OnTriggerStay(Collider other)
