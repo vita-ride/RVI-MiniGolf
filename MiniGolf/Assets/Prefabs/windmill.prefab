@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6735210037402562573}
   - component: {fileID: 8017038373194782606}
   - component: {fileID: 4324873907018770553}
+  - component: {fileID: 129005554392058872}
   m_Layer: 0
   m_Name: blades
   m_TagString: Untagged
@@ -25,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4956809250045672831}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.9566486, z: -0.39995998}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.29113868, w: 0.9566809}
+  m_LocalPosition: {x: 0, y: 0.9566486, z: -0.39995998}
+  m_LocalScale: {x: 1.14, y: 1.14, z: 1}
   m_Children: []
   m_Father: {fileID: 8920443149374082743}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 33.852}
 --- !u!33 &8017038373194782606
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -82,6 +83,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &129005554392058872
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4956809250045672831}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7156673446705693721, guid: 9b87e8a82df103243a2b48b8091aa8f1, type: 3}
 --- !u!1 &8106505050738791437
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +109,7 @@ GameObject:
   - component: {fileID: 5504555831981326610}
   - component: {fileID: 7746449832517940696}
   - component: {fileID: 7178494039770012766}
+  - component: {fileID: -4811142212311422519}
   m_Layer: 0
   m_Name: windmill
   m_TagString: Untagged
@@ -181,3 +197,15 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 535561084831100290, guid: 9b87e8a82df103243a2b48b8091aa8f1, type: 3}
+--- !u!114 &-4811142212311422519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8106505050738791437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d5eed5517c25414eaba6f9c2f581553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

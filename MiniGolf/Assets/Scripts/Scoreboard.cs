@@ -50,7 +50,7 @@ public class Scoreboard : MonoBehaviour
         for (int i=0; i<players.Length; i++)
         {
             GameObject playerScreenDetails = playerLayout.transform.GetChild(i).gameObject;
-
+            players[i].color.a = 0.65f;
             playerScreenDetails.GetComponent<Image>().color = players[i].color;
             playerScreenDetails.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText(players[i].name);
             playerScreenDetails.SetActive(true);
