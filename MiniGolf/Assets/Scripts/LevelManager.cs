@@ -127,6 +127,7 @@ public class LevelManager : MonoBehaviour
             p.EndOfTurn += ProcessEndOfTurn;
             p.PlayerFinished += ProcessPlayerFinished;
             p.playerName = playerInfo.name;
+            p.color = playerInfo.color;
             p.id = i;
             player.name = playerInfo.name;
             player.transform.GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", playerInfo.color);

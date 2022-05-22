@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public Ball ball;
     public int id;
     public string playerName;
+    public Color color;
 
     public delegate void EndOfTurnAction(int id);
     public event EndOfTurnAction EndOfTurn;
