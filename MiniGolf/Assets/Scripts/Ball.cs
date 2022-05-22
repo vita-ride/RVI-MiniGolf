@@ -82,8 +82,9 @@ public class Ball : MonoBehaviour
             transform.position = lastPosition;
             moving = false;
         }
-
-        sounds.PlayBallCollisionSound();
+        if(collision.gameObject.name == "Ball") { 
+            sounds.PlayBallCollisionSound();
+        }
     }
 
     private void OnTriggerStay(Collider other)
