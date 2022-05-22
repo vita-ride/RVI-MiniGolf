@@ -10,7 +10,6 @@ public class SkipIntro : MonoBehaviour
     private void Start()
     {
         canvas = transform.GetChild(0).gameObject;
-        canvas.GetComponent<Canvas>().worldCamera = Camera.main;
         cameraPath = GameObject.Find("CameraPath").GetComponent<CPC_CameraPath>();
         Debug.Log("START SKIP");
     }
