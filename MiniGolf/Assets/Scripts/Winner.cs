@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Linq;
 using TMPro;
 
 public class Winner : MonoBehaviour
@@ -14,10 +13,10 @@ public class Winner : MonoBehaviour
     private void Awake()
     {
         var playerScores = MultiGameManager.GetInstance().score;
-        int minScore = playerScores[0].Sum();
-        for (int i = 0; i < playerScores.Count(); i++)
+        int minScore = playerScores[0];
+        for (int i = 0; i < playerScores.Length; i++)
         {
-            if (playerScores[i].Sum() < minScore)
+            if (playerScores[i] < minScore)
             {
                 winnerID = i;
             }
