@@ -59,6 +59,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 62dce314302f9a244a5e7888332a8141, type: 3}
   - {fileID: 8300000, guid: 59f2d290cfe5a0a4caea7658f4d1c7c3, type: 3}
   BallCollisionClip: {fileID: 8300000, guid: 3bd9acdbb653d4a4e9ab5c9e24e05e12, type: 3}
+  LevelIntroClips:
+  - {fileID: 8300000, guid: cf9b7bed1dd7e844cbccfe0cb9cf8d82, type: 3}
+  - {fileID: 8300000, guid: d41707db36ece554080a298d3271c460, type: 3}
+  - {fileID: 8300000, guid: 70570b4d6d5be0845b18e9b0d8f79b78, type: 3}
 --- !u!82 &1154003876558636066
 AudioSource:
   m_ObjectHideFlags: 0

@@ -8,6 +8,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip[] BallInHoleClips;
     [SerializeField] AudioClip[] PuttClips;
     [SerializeField] AudioClip BallCollisionClip;
+    [SerializeField] AudioClip[] LevelIntroClips;
+
     private AudioSource AudioSource;
     static SoundManager instance;
     void Start()
@@ -47,6 +49,12 @@ public class SoundManager : MonoBehaviour
     public void PlayBallCollisionSound()
     {
         AudioSource.PlayOneShot(BallCollisionClip);
+    }
+
+    public void PlayLevelIntro()
+    {
+        AudioClip clip = LevelIntroClips[UnityEngine.Random.Range(0, LevelIntroClips.Length)];
+        AudioSource.PlayOneShot(clip);
     }
 
 }

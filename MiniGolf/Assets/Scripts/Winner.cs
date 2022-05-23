@@ -34,6 +34,7 @@ public class Winner : MonoBehaviour
         winner.transform.GetChild(0).GetComponent<Collider>().material = infBounce;
         winner.transform.localScale += new Vector3(1f, 1f, 1f);
         winner.transform.GetComponentInChildren<TextMeshPro>().alpha = 1;
+        SoundManager.GetInstance().PlayCrowdSound();
         //winner.transform.GetChild(0).GetComponent<Rigidbody>().useGravity = false;
     }
 

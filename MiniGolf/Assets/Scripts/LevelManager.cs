@@ -51,7 +51,7 @@ public class LevelManager : MonoBehaviour
             playerObjs[0].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
             cameraControl.SetCameraAtPlayer(0);
             playerNameUI.UpdatePlayerName(players[0].name, players[0].color);
-
+            SoundManager.GetInstance().PlayLevelIntro();
             lvlStarted = true;
         }
     }
