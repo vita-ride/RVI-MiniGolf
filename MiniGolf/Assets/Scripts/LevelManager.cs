@@ -44,7 +44,6 @@ public class LevelManager : MonoBehaviour
 
             InstantiatePlayers();
             scoreboard.FillPlayerData(players);
-            scoreboard.Refresh(playerHits);
 
             currPlayerID = 0;
             playerObjs[0].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
@@ -58,7 +57,7 @@ public class LevelManager : MonoBehaviour
     private void ProcessEndOfTurn(int id)
     {
         playerHits[id]++;
-        scoreboard.Refresh(playerHits);
+        scoreboard.Refresh(id);
         playerObjs[id].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(true);
 
         if (activePlayers != 0)
@@ -107,10 +106,6 @@ public class LevelManager : MonoBehaviour
         // vidi da li su svi zavrsili
         if(activePlayers == 0)
         {
-            for(int i=0; i<playerCount; i++)
-            {
-                MultiGameManager.GetInstance().score[i].Add(playerHits[i]);
-            }
             playerHits = new int[playerCount];
 
             MultiGameManager.GetInstance().initNextLevel();
