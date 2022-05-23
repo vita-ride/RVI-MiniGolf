@@ -96,7 +96,7 @@ public class CameraControl : MonoBehaviour
 
     }
 
-    private void ToggleMapView()
+    public void ToggleMapView()
     {
         if (!inMapView)
         {

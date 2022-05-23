@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class LevelManager : MonoBehaviour
         cameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControl>();
         cameraPath = GameObject.Find("CameraPath").GetComponent<CPC_CameraPath>();
         scoreboard = GameObject.Find("Scoreboard").GetComponent<Scoreboard>();
+        scoreboard.canvas.gameObject.SetActive(false);
         playerNameUI = GameObject.Find("PlayerName").GetComponent<PlayerNameUI>();
         lvlStarted = false;
 
@@ -96,19 +98,29 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            cameraControl.ToggleMapView();
+        }
     }
 
     private void ProcessPlayerFinished(int id, int hits)
     {
+        activePlayers--;
+
+
         ProcessEndOfTurn(id);
         // zabelezi score igraca
-        activePlayers--;
+        
         // vidi da li su svi zavrsili
         if(activePlayers == 0)
         {
             playerHits = new int[playerCount];
 
-            MultiGameManager.GetInstance().initNextLevel();
+            playerNameUI.gameObject.SetActive(false);
+            scoreboard.title.GetComponent<TextMeshProUGUI>().SetText($"LEVEL {MultiGameManager.GetInstance().curLevel} RESULTS");
+            scoreboard.nextLevel.gameObject.SetActive(true);
+            scoreboard.canvas.gameObject.SetActive(true);
         }
     }
 

@@ -7,8 +7,10 @@ using TMPro;
 public class Scoreboard : MonoBehaviour
 {
 
-    [SerializeField] private GameObject canvas;
+    [SerializeField] public GameObject canvas;
     [SerializeField] private GameObject playerLayout;
+    [SerializeField] public GameObject nextLevel;
+    [SerializeField] public GameObject title;
     private PlayerInfo[] players;
     private int[] hits;
     private int[] totalHits;
