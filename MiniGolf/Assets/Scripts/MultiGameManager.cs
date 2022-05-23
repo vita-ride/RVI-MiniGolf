@@ -34,7 +34,7 @@ public class MultiGameManager : MonoBehaviour
         }
 
         levelCount = 3;
-        curLevel = 2;
+        curLevel = 0;
 
         GameObject.DontDestroyOnLoad(this.gameObject);
         initNextLevel();

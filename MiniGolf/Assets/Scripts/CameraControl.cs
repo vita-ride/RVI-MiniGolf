@@ -35,18 +35,11 @@ public class CameraControl : MonoBehaviour
 
             if (!inMapView)
             {
-                Vector3 oldPos = transform.localPosition;
+                //Vector3 oldPos = transform.localPosition;
 
                 transform.LookAt(ball.transform);
-
-                if (transform.localPosition.y < 0)
-                {
-                    transform.localPosition = Vector3.Scale(oldPos, new Vector3(1, 0, 1));
-                }
-                else
-                {
-                    RotateCamera();
-                }
+                RotateCamera();
+                
             }
         }
     }
@@ -85,13 +78,19 @@ public class CameraControl : MonoBehaviour
             //Mouse up
             if (Input.GetAxis("Mouse Y") > 0)
             {
-                transform.RotateAround(ball.transform.position, ball.transform.right, cameraSpeed);
+                if (transform.localPosition.y > 0 || transform.localPosition.z < 0)
+                {
+                    transform.RotateAround(ball.transform.position, ball.transform.right, cameraSpeed);
+                }
             }
 
             //Mouse down
             if (Input.GetAxis("Mouse Y") < 0)
             {
-                transform.RotateAround(ball.transform.position, -ball.transform.right, cameraSpeed);
+                if (transform.localPosition.y > 0 || transform.localPosition.z > 0)
+                {
+                    transform.RotateAround(ball.transform.position, -ball.transform.right, cameraSpeed);
+                }
             }
         }
 

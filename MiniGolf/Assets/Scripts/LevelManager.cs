@@ -13,6 +13,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private CameraControl cameraControl;
     private CPC_CameraPath cameraPath;
     [SerializeField] private Scoreboard scoreboard;
+    private PlayerNameUI playerNameUI;
     private int playerCount;
     private bool lvlStarted;
 
@@ -28,6 +29,7 @@ public class LevelManager : MonoBehaviour
         cameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControl>();
         cameraPath = GameObject.Find("CameraPath").GetComponent<CPC_CameraPath>();
         scoreboard = GameObject.Find("Scoreboard").GetComponent<Scoreboard>();
+        playerNameUI = GameObject.Find("PlayerName").GetComponent<PlayerNameUI>();
         lvlStarted = false;
 
         cameraPath.PlayPath(10);
@@ -44,7 +46,10 @@ public class LevelManager : MonoBehaviour
             scoreboard.FillPlayerData(players);
             scoreboard.Refresh(playerHits);
 
+            currPlayerID = 0;
+            playerObjs[0].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
             cameraControl.SetCameraAtPlayer(0);
+            playerNameUI.UpdatePlayerName(players[0].name, players[0].color);
 
             lvlStarted = true;
         }
@@ -54,10 +59,12 @@ public class LevelManager : MonoBehaviour
     {
         playerHits[id]++;
         scoreboard.Refresh(playerHits);
+        playerObjs[id].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(true);
 
         if (activePlayers != 0)
         {
             int nextPlayerID = (id + 1) % playerCount;
+            currPlayerID = nextPlayerID;
             while (true)
             {
                 Player nextPlayer = playerObjs[nextPlayerID].GetComponent<Player>();
@@ -66,7 +73,9 @@ public class LevelManager : MonoBehaviour
                     playerObjs[nextPlayerID].SetActive(true);
                     nextPlayer.ball.myTurn = true;
                     nextPlayer.ball.wasHitThisTurn = false;
+                    playerObjs[nextPlayerID].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
                     cameraControl.SetCameraAtPlayer(nextPlayerID);
+                    playerNameUI.UpdatePlayerName(players[nextPlayerID].name, players[nextPlayerID].color);
                     break;
                 } 
                 else if (playerObjs[nextPlayerID].activeSelf) 
@@ -74,10 +83,12 @@ public class LevelManager : MonoBehaviour
                     Debug.Log(nextPlayerID);
                     nextPlayer.ball.myTurn = true;
                     nextPlayer.ball.wasHitThisTurn = false;
-                    if(nextPlayerID != id)
+                    playerObjs[nextPlayerID].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
+                    if (nextPlayerID != id)
                     {
                         cameraControl.SetCameraAtPlayer(nextPlayerID);
                     }
+                    playerNameUI.UpdatePlayerName(players[nextPlayerID].name, players[nextPlayerID].color);
                     break;
                 } 
                 else
@@ -127,6 +138,7 @@ public class LevelManager : MonoBehaviour
             p.EndOfTurn += ProcessEndOfTurn;
             p.PlayerFinished += ProcessPlayerFinished;
             p.playerName = playerInfo.name;
+            p.color = playerInfo.color;
             p.id = i;
             player.name = playerInfo.name;
             player.transform.GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", playerInfo.color);
