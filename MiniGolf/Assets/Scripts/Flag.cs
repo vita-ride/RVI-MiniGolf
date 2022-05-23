@@ -54,7 +54,7 @@ public class Flag : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
         Ball script = other.gameObject.GetComponent<Ball>();
         if (script != null)

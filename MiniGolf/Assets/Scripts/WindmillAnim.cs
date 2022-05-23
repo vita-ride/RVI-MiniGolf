@@ -5,16 +5,17 @@ using UnityEngine;
 public class WindmillAnim : MonoBehaviour
 {
     Transform blades;
-    [SerializeField, Range(-0.1f,0.1f)] float rotationAngle = -0.02f;
+    [SerializeField, Range(-5f, 5f)] float rotationAngle;
     // Start is called before the first frame update
     void Start()
     {
         blades = this.transform.GetChild(0).transform;
+        rotationAngle = -1.2f;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        blades.RotateAround(Vector3.forward, rotationAngle);
+        blades.Rotate(Vector3.forward, rotationAngle);
     }
 }

@@ -8,7 +8,7 @@ public class MultiGameManager : MonoBehaviour
     public PlayerInfo[] players;
     static MultiGameManager instance;
     //moze da bude matrica ako je fixed broj levela, moze i da se doda u playerInfo struct
-    public List<int>[] score;
+    public int[] score;
     public int curLevel;
     private int levelCount;
 
@@ -27,14 +27,10 @@ public class MultiGameManager : MonoBehaviour
         }
         instance = this;
 
-        score = new List<int>[players.Length];
-        for(int i=0; i < players.Length; i++)
-        {
-            score[i] = new List<int>();
-        }
+        score = new int[players.Length];
 
         levelCount = 3;
-        curLevel = 2;
+        curLevel = 1;
 
         GameObject.DontDestroyOnLoad(this.gameObject);
         initNextLevel();
@@ -51,6 +47,7 @@ public class MultiGameManager : MonoBehaviour
         if(curLevel == levelCount)
         {
             //endGame();
+            SceneManager.LoadScene("Scenes/Winner");
         }
         else
         {

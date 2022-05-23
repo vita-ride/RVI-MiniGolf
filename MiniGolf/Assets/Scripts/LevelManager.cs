@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private CameraControl cameraControl;
     private CPC_CameraPath cameraPath;
     [SerializeField] private Scoreboard scoreboard;
+    private PlayerNameUI playerNameUI;
     private int playerCount;
     private bool lvlStarted;
 
@@ -28,6 +30,8 @@ public class LevelManager : MonoBehaviour
         cameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControl>();
         cameraPath = GameObject.Find("CameraPath").GetComponent<CPC_CameraPath>();
         scoreboard = GameObject.Find("Scoreboard").GetComponent<Scoreboard>();
+        scoreboard.canvas.gameObject.SetActive(false);
+        playerNameUI = GameObject.Find("PlayerName").GetComponent<PlayerNameUI>();
         lvlStarted = false;
 
         cameraPath.PlayPath(10);
@@ -42,9 +46,11 @@ public class LevelManager : MonoBehaviour
 
             InstantiatePlayers();
             scoreboard.FillPlayerData(players);
-            scoreboard.Refresh(playerHits);
 
+            currPlayerID = 0;
+            playerObjs[0].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
             cameraControl.SetCameraAtPlayer(0);
+            playerNameUI.UpdatePlayerName(players[0].name, players[0].color);
 
             lvlStarted = true;
         }
@@ -53,11 +59,13 @@ public class LevelManager : MonoBehaviour
     private void ProcessEndOfTurn(int id)
     {
         playerHits[id]++;
-        scoreboard.Refresh(playerHits);
+        scoreboard.Refresh(id);
+        playerObjs[id].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(true);
 
         if (activePlayers != 0)
         {
             int nextPlayerID = (id + 1) % playerCount;
+            currPlayerID = nextPlayerID;
             while (true)
             {
                 Player nextPlayer = playerObjs[nextPlayerID].GetComponent<Player>();
@@ -66,7 +74,9 @@ public class LevelManager : MonoBehaviour
                     playerObjs[nextPlayerID].SetActive(true);
                     nextPlayer.ball.myTurn = true;
                     nextPlayer.ball.wasHitThisTurn = false;
+                    playerObjs[nextPlayerID].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
                     cameraControl.SetCameraAtPlayer(nextPlayerID);
+                    playerNameUI.UpdatePlayerName(players[nextPlayerID].name, players[nextPlayerID].color);
                     break;
                 } 
                 else if (playerObjs[nextPlayerID].activeSelf) 
@@ -74,10 +84,12 @@ public class LevelManager : MonoBehaviour
                     Debug.Log(nextPlayerID);
                     nextPlayer.ball.myTurn = true;
                     nextPlayer.ball.wasHitThisTurn = false;
-                    if(nextPlayerID != id)
+                    playerObjs[nextPlayerID].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
+                    if (nextPlayerID != id)
                     {
                         cameraControl.SetCameraAtPlayer(nextPlayerID);
                     }
+                    playerNameUI.UpdatePlayerName(players[nextPlayerID].name, players[nextPlayerID].color);
                     break;
                 } 
                 else
@@ -86,23 +98,29 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            cameraControl.ToggleMapView();
+        }
     }
 
     private void ProcessPlayerFinished(int id, int hits)
     {
+        activePlayers--;
+
+
         ProcessEndOfTurn(id);
         // zabelezi score igraca
-        activePlayers--;
+        
         // vidi da li su svi zavrsili
         if(activePlayers == 0)
         {
-            for(int i=0; i<playerCount; i++)
-            {
-                MultiGameManager.GetInstance().score[i].Add(playerHits[i]);
-            }
             playerHits = new int[playerCount];
 
-            MultiGameManager.GetInstance().initNextLevel();
+            playerNameUI.gameObject.SetActive(false);
+            scoreboard.title.GetComponent<TextMeshProUGUI>().SetText($"LEVEL {MultiGameManager.GetInstance().curLevel} RESULTS");
+            scoreboard.nextLevel.gameObject.SetActive(true);
+            scoreboard.canvas.gameObject.SetActive(true);
         }
     }
 
@@ -127,6 +145,7 @@ public class LevelManager : MonoBehaviour
             p.EndOfTurn += ProcessEndOfTurn;
             p.PlayerFinished += ProcessPlayerFinished;
             p.playerName = playerInfo.name;
+            p.color = playerInfo.color;
             p.id = i;
             player.name = playerInfo.name;
             player.transform.GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", playerInfo.color);
