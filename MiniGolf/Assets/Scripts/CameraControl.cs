@@ -13,7 +13,6 @@ public class CameraControl : MonoBehaviour
 
     private bool inMapView = false;
     private bool locked;
-    private bool downLocked = false;
 
     private void Awake()
     {
