@@ -34,7 +34,7 @@ public class MultiGameManager : MonoBehaviour
         }
 
         levelCount = 3;
-        curLevel = 0;
+        curLevel = 2;
 
         GameObject.DontDestroyOnLoad(this.gameObject);
         initNextLevel();
@@ -51,6 +51,7 @@ public class MultiGameManager : MonoBehaviour
         if(curLevel == levelCount)
         {
             //endGame();
+            SceneManager.LoadScene("Scenes/Winner");
         }
         else
         {

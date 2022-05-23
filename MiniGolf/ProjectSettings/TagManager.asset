@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Hole
   - Flag
+  - GameManager
   layers:
   - Default
   - TransparentFX
