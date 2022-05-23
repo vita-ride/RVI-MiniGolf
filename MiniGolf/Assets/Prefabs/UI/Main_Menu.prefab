@@ -6918,7 +6918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: Second_Scene
-  theme: 0
+  theme: 1
   themeController: {fileID: 11400000, guid: e00c7d2bc58a2424b8dc09ecdafdb067, type: 2}
   mainCanvas: {fileID: 7603257259815284260}
   PanelControls: {fileID: 0}
