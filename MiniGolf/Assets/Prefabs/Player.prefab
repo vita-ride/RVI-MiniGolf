@@ -328,7 +328,7 @@ MonoBehaviour:
   sparkSystem: {fileID: 306229327078861866}
   aim: {fileID: 6847463486185660594}
   cameraControl: {fileID: 0}
-  force: 2.5
+  force: 3
 --- !u!96 &311075324799825085
 TrailRenderer:
   serializedVersion: 2
