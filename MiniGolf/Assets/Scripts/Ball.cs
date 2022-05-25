@@ -19,6 +19,7 @@ public class Ball : MonoBehaviour
     public bool wasHitThisTurn;
     public ParticleSystem sparkSystem;
 
+    [SerializeField] private SoundManager sounds;
     [SerializeField] private Aim aim;
     // [SerializeField] private Rigidbody rigidBody;
     [SerializeField] private CameraControl cameraControl;
@@ -43,6 +44,7 @@ public class Ball : MonoBehaviour
         minHoleTime = 1f;
         hits = 0;
         cameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraControl>();
+        sounds = SoundManager.GetInstance();
     }
 
     // Update is called once per frame
@@ -89,12 +91,11 @@ public class Ball : MonoBehaviour
             // temp fix for multiplayer
             // moving = false;
         }
-        
-        if (collision.gameObject.name == "Ball")
-        {
+
+        if(collision.gameObject.name == "Ball") { 
+            sounds.PlayBallCollisionSound();
             sparkSystem.Play();
         }
-
     }
 
     private void OnTriggerStay(Collider other)
@@ -105,11 +106,19 @@ public class Ball : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Hole")
+        {
+            sounds.PlayBallInHoleSound();
+        }
+    }
     private void CountHoleTime()
     {
         holeTime += Time.deltaTime;
         if(holeTime >= minHoleTime)
         {
+            sounds.PlayCrowdSound();
             Debug.Log("d bol iz in d hol after " + hits + " hits");
             // javi igracu da mu je loptica u rupi
             BallInHole?.Invoke(hits);
@@ -165,6 +174,7 @@ public class Ball : MonoBehaviour
                     direction.z = (float)z;
                     slowTime = 0;
                     aim.gameObject.SetActive(false); //additionally making sure the bar doesn't show after hitting
+                    sounds.PlayPuttSound(aim.getForce());
                     GetComponent<SphereCollider>().enabled = true;
                     GetComponent<Rigidbody>().constraints &= ~RigidbodyConstraints.FreezePositionY;
                     rbody.AddForce(direction.normalized * force * aim.getForce(), ForceMode.Impulse);
