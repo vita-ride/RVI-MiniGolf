@@ -35,6 +35,7 @@ public class Winner : MonoBehaviour
         winner.transform.localScale += new Vector3(1f, 1f, 1f);
         winner.transform.GetComponentInChildren<TextMeshPro>().alpha = 1;
         SoundManager.GetInstance().PlayCrowdSound();
+        Cursor.visible = true;
         //winner.transform.GetChild(0).GetComponent<Rigidbody>().useGravity = false;
     }
 

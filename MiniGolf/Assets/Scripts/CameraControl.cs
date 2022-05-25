@@ -11,7 +11,7 @@ public class CameraControl : MonoBehaviour
     [SerializeField, Range(0.5f, 2)] private float cameraSpeed;
     private CPC_CameraPath cameraPath;
 
-    private bool inMapView = false;
+    public bool inMapView = false;
     private bool locked;
 
     private void Awake()
