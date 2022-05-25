@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -54,6 +55,13 @@ public class LevelManager : MonoBehaviour
             SoundManager.GetInstance().PlayLevelIntro();
             lvlStarted = true;
             Cursor.visible = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Destroy(GameObject.FindGameObjectWithTag("GameManager"));
+            SceneManager.LoadScene("Scenes/MainMenu");
+            Cursor.visible = true;
         }
     }
 
