@@ -127,10 +127,12 @@ public class LevelManager : MonoBehaviour
         {
             playerHits = new int[playerCount];
 
+            scoreboard.isEndOfLevel = true;
             playerNameUI.gameObject.SetActive(false);
             scoreboard.title.GetComponent<TextMeshProUGUI>().SetText($"LEVEL {MultiGameManager.GetInstance().curLevel} RESULTS");
             scoreboard.nextLevel.gameObject.SetActive(true);
             scoreboard.canvas.gameObject.SetActive(true);
+            
             Cursor.visible = true;
         }
     }
