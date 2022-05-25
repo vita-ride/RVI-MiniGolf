@@ -42,15 +42,13 @@ public class MainMenuManager : MonoBehaviour
         {
             gameManager = Instantiate(multiGameManager).GetComponent<MultiGameManager>();
             gameManager.name = "multiGameManager";
-            gameManager.players = players;
-            gameManager.curLevel = level;
+            gameManager.players = players;        
         }
         if(mode == GameMode.Practice)
         {
             gameManager = Instantiate(multiGameManager).GetComponent<MultiGameManager>();
             gameManager.name = "singleGameManager";
             gameManager.players = players;
-            gameManager.curLevel = level;
         }
     }
 
