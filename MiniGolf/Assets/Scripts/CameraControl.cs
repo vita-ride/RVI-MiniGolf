@@ -105,21 +105,24 @@ public class CameraControl : MonoBehaviour
 
     public void ToggleMapView()
     {
-        if (!inMapView)
+        if (!locked)
         {
-            inMapView = true;
-            transform.parent = null;
-            transform.position = mapView.transform.position;
-            transform.rotation = mapView.transform.rotation;
-            Camera.main.orthographic = true;
-        }
+            if (!inMapView)
+            {
+                inMapView = true;
+                transform.parent = null;
+                transform.position = mapView.transform.position;
+                transform.rotation = mapView.transform.rotation;
+                Camera.main.orthographic = true;
+            }
 
-        else
-        {
-            inMapView = false;
-            Camera.main.orthographic = false;
-            transform.parent = ball.transform;
-            FocusOnBall();
+            else
+            {
+                inMapView = false;
+                Camera.main.orthographic = false;
+                transform.parent = ball.transform;
+                FocusOnBall();
+            }
         }
     }
 

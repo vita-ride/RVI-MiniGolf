@@ -119,6 +119,7 @@ public class LevelManager : MonoBehaviour
         else
         {
             cameraControl.ToggleMapView();
+            cameraControl.lockCamera();
         }
     }
 
