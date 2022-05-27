@@ -11,17 +11,25 @@ public class Scoreboard : MonoBehaviour
     [SerializeField] private GameObject playerLayout;
     [SerializeField] public GameObject nextLevel;
     [SerializeField] public GameObject title;
+    private CPC_CameraPath cameraPath;
     private PlayerInfo[] players;
     private int[] hits;
     private int[] totalHits;
+    public bool isEndOfLevel = false;
+
+    public void Start()
+    {
+        isEndOfLevel = false;
+        cameraPath = GameObject.Find("CameraPath").GetComponent<CPC_CameraPath>();
+    }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if(Input.GetKeyDown(KeyCode.Tab) && !cameraPath.IsPlaying() && !isEndOfLevel)
         {
             canvas.transform.gameObject.SetActive(true);
         }
-        if(Input.GetKeyUp(KeyCode.Tab))
+        if(Input.GetKeyUp(KeyCode.Tab) && !cameraPath.IsPlaying() && !isEndOfLevel)
         {
             canvas.transform.gameObject.SetActive(false);
         }

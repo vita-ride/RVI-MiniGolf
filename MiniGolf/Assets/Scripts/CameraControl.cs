@@ -8,16 +8,16 @@ public class CameraControl : MonoBehaviour
     private GameObject ball;
     private GameObject defaultCameraPosition;
     [SerializeField] private GameObject mapView;
-    [SerializeField, Range(0.5f, 2)] private float cameraSpeed;
+    private float cameraSpeed;
     private CPC_CameraPath cameraPath;
 
-    private bool inMapView = false;
+    public bool inMapView = false;
     private bool locked;
 
     private void Awake()
     {
         locked = false;
-        cameraSpeed = 0.7f;
+        cameraSpeed = 100f;
     }
     void Start()
     {
@@ -35,12 +35,19 @@ public class CameraControl : MonoBehaviour
 
             if (!inMapView)
             {
-                //Vector3 oldPos = transform.localPosition;
-
                 transform.LookAt(ball.transform);
                 RotateCamera();
-                
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) && cameraSpeed > 60)
+        {
+            cameraSpeed -= 10;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2) && cameraSpeed < 160)
+        {
+            cameraSpeed += 10;
         }
     }
 
@@ -66,13 +73,13 @@ public class CameraControl : MonoBehaviour
             //Mouse left
             if (Input.GetAxis("Mouse X") < 0)
             {
-                ball.transform.Rotate(new Vector3(0, -cameraSpeed, 0));
+                ball.transform.Rotate(new Vector3(0, -cameraSpeed*Time.deltaTime, 0));
             }
 
             //Mouse right
             if (Input.GetAxis("Mouse X") > 0)
             {
-                ball.transform.Rotate(new Vector3(0, cameraSpeed, 0));
+                ball.transform.Rotate(new Vector3(0, cameraSpeed*Time.deltaTime, 0));
             }
 
             //Mouse up
@@ -80,7 +87,7 @@ public class CameraControl : MonoBehaviour
             {
                 if (transform.localPosition.y > 0 || transform.localPosition.z < 0)
                 {
-                    transform.RotateAround(ball.transform.position, ball.transform.right, cameraSpeed);
+                    transform.RotateAround(ball.transform.position, ball.transform.right, cameraSpeed*Time.deltaTime);
                 }
             }
 
@@ -89,7 +96,7 @@ public class CameraControl : MonoBehaviour
             {
                 if (transform.localPosition.y > 0 || transform.localPosition.z > 0)
                 {
-                    transform.RotateAround(ball.transform.position, -ball.transform.right, cameraSpeed);
+                    transform.RotateAround(ball.transform.position, -ball.transform.right, cameraSpeed*Time.deltaTime);
                 }
             }
         }
@@ -98,21 +105,24 @@ public class CameraControl : MonoBehaviour
 
     public void ToggleMapView()
     {
-        if (!inMapView)
+        if (!locked)
         {
-            inMapView = true;
-            transform.parent = null;
-            transform.position = mapView.transform.position;
-            transform.rotation = mapView.transform.rotation;
-            Camera.main.orthographic = true;
-        }
+            if (!inMapView)
+            {
+                inMapView = true;
+                transform.parent = null;
+                transform.position = mapView.transform.position;
+                transform.rotation = mapView.transform.rotation;
+                Camera.main.orthographic = true;
+            }
 
-        else
-        {
-            inMapView = false;
-            Camera.main.orthographic = false;
-            transform.parent = ball.transform;
-            FocusOnBall();
+            else
+            {
+                inMapView = false;
+                Camera.main.orthographic = false;
+                transform.parent = ball.transform;
+                FocusOnBall();
+            }
         }
     }
 

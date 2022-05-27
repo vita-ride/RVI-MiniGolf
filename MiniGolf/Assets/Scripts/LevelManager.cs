@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -53,6 +54,14 @@ public class LevelManager : MonoBehaviour
             playerNameUI.UpdatePlayerName(players[0].name, players[0].color);
             SoundManager.GetInstance().PlayLevelIntro();
             lvlStarted = true;
+            Cursor.visible = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Destroy(GameObject.FindGameObjectWithTag("GameManager"));
+            SceneManager.LoadScene("Scenes/MainMenu");
+            Cursor.visible = true;
         }
     }
 
@@ -75,6 +84,10 @@ public class LevelManager : MonoBehaviour
                     nextPlayer.ball.myTurn = true;
                     nextPlayer.ball.wasHitThisTurn = false;
                     playerObjs[nextPlayerID].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
+                    if (cameraControl.inMapView)
+                    {
+                        cameraControl.ToggleMapView();
+                    }
                     cameraControl.SetCameraAtPlayer(nextPlayerID);
                     playerNameUI.UpdatePlayerName(players[nextPlayerID].name, players[nextPlayerID].color);
                     break;
@@ -87,6 +100,11 @@ public class LevelManager : MonoBehaviour
                     playerObjs[nextPlayerID].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
                     if (nextPlayerID != id)
                     {
+                        if (cameraControl.inMapView)
+                        {
+                            cameraControl.ToggleMapView();
+                        }
+
                         cameraControl.SetCameraAtPlayer(nextPlayerID);
                     }
                     playerNameUI.UpdatePlayerName(players[nextPlayerID].name, players[nextPlayerID].color);
@@ -101,6 +119,7 @@ public class LevelManager : MonoBehaviour
         else
         {
             cameraControl.ToggleMapView();
+            cameraControl.lockCamera();
         }
     }
 
@@ -117,10 +136,13 @@ public class LevelManager : MonoBehaviour
         {
             playerHits = new int[playerCount];
 
+            scoreboard.isEndOfLevel = true;
             playerNameUI.gameObject.SetActive(false);
             scoreboard.title.GetComponent<TextMeshProUGUI>().SetText($"LEVEL {MultiGameManager.GetInstance().curLevel} RESULTS");
             scoreboard.nextLevel.gameObject.SetActive(true);
             scoreboard.canvas.gameObject.SetActive(true);
+            
+            Cursor.visible = true;
         }
     }
 
